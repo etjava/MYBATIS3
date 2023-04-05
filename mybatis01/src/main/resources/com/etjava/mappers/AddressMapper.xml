@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射  namespace 对应的是接口的完整名称-->
+<mapper namespace="com.etjava.mappers.AddressMapper">
+
+
+	<resultMap id="AddressMap" type="Address">
+		<id property="id" column="id"/>
+		<result property="sheng" column="sheng"/>
+		<result property="shi" column="shi"/>
+		<result property="qu" column="qu"/>
+	</resultMap>
+
+	<select id="findById" parameterType="Integer" resultMap="AddressMap">
+		select * from t_address where id=#{id}
+	</select>
+</mapper> 

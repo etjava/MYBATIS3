@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射  namespace 对应的是接口的完整名称-->
+<mapper namespace="com.etjava.mappers.GradeMapper">
+
+
+	<resultMap id="GradeMap" type="Grade">
+		<id property="id" column="id"/>
+		<result property="gradeName" column="gradeName"/>
+		<!--
+		collection 一对多查询映射关系
+		property 当前Grade中的属性
+		column 对应的是Student类中的主键ID
+		select 指向StudentMapper中根据年级ID查询的语句
+		-->
+		<collection property="studentList" column="id" select="com.etjava.mappers.StudentMapper.findByGradeId"></collection>
+	</resultMap>
+
+	<select id="findById" parameterType="Integer" resultMap="GradeMap">
+		select * from t_grade where id=#{id}
+	</select>
+
+	<select id="findAll" resultMap="GradeMap">
+		select * from t_grade
+	</select>
+</mapper> 

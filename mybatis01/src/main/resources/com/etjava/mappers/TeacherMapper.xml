@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射  namespace 对应的是接口的完整名称-->
+<mapper namespace="com.etjava.mappers.TeacherMapper">
+
+	<!--
+		size="1024"  表示cache中能容纳最大元素的数量 默认1024
+		flushInterval="60000" 定义缓存刷新周期 单位毫秒
+		eviction="LRU" 定义缓存的移除机制，默认LRU(Least Recently Used) 最近最少使用
+			还有FIFO(First In First Out) 先进先出
+		readOnly="false" 是否只读  默认false 可读可写   true 缓存只能读
+	-->
+	<cache size="1024" flushInterval="60000" eviction="LRU" readOnly="false"/>
+
+	<resultMap id="TeacherMap" type="Teacher">
+		<id property="id" column="id"/>
+		<result property="teaName" column="teaName"/>
+		<result property="teaAge" column="teaAge"/>
+		<result property="curriculum" column="curriculum"/>
+		<result property="pic" column="pic"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+
+	<!--
+	useCache="true" 定义使用缓存 默认就是true
+	flushCache="false" 定义是否清空缓存  false为不清空缓存
+		insert 语句中默认是清空缓存的
+	-->
+	<select id="find" parameterType="Map" resultMap="TeacherMap" useCache="true" flushCache="false">
+		select * from t_teacher where 1=1
+		<if test="teaName!=null ">
+			and teaName=#{teaName}
+		</if>
+		<if test="teaAge!=null">
+			and teaAge=#{teaAge}
+		</if>
+		<if test="curriculum!=null">
+			and curriculum=#{curriculum}
+		</if>
+	</select>
+
+	<select id="find2" parameterType="Map" resultMap="TeacherMap">
+		select * from t_teacher
+		<choose>
+			<!-- 相当于if -->
+			<when test="searchBy=='name'">
+				where teaName=#{teaName}
+			</when>
+			<when test="searchBy=='age'">
+				where teaAge=#{teaAge}
+			</when>
+			<!--相当于else-->
+			<otherwise>
+				where curriculum='Java'
+			</otherwise>
+		</choose>
+	</select>
+	<select id="find3" parameterType="Map" resultMap="TeacherMap">
+		select * from t_teacher
+		<where>
+			<if test="teaName!=null">
+				and teaName=#{teaName}
+			</if>
+			<if test="teaAge!=null">
+				and teaAge=#{teaAge}
+			</if>
+		</where>
+	</select>
+
+	<select id="find4" parameterType="Map" resultMap="TeacherMap">
+		select * from t_teacher
+		<!-- prefix="where" 添加前缀  prefixOverrides="and|or" 覆盖前缀第一个and或or-->
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="teaName!=null">
+				and teaName=#{teaName}
+			</if>
+			<if test="teaAge!=null">
+				and teaAge=#{teaAge}
+			</if>
+		</trim>
+	</select>
+
+	<select id="find5" parameterType="Map" resultMap="TeacherMap">
+		select * from t_teacher
+		<if test="ids!=null">
+		    <!--
+				collection="ids"  传入的集合
+				item="id" 每次变量获取的数据存放到id中
+				open="(" 添加前缀 小括号
+				separator="," 添加分隔符
+				close=")" 添加后缀小括号
+		    -->
+			<where>
+				id in
+		         <foreach item="id" collection="ids"  open="(" separator="," close=")">
+					#{id}
+				 </foreach>
+			</where>
+		</if>
+	</select>
+
+	<update id="update" parameterType="Teacher">
+		update t_teacher
+		<set>
+			<if test="teaName!=null">
+				teaName=#{teaName},
+			</if>
+		    <if test="teaAge!=null">
+				teaAge=#{teaAge},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<insert id="addTeacher" parameterType="Teacher" flushCache="false">
+		insert into t_teacher values(null,#{teaName},#{teaAge},#{curriculum},#{pic},#{remark})
+	</insert>
+
+	<select id="findById" parameterType="Integer" resultMap="TeacherMap">
+		select * from t_teacher where id=#{id}
+	</select>
+
+	<!-- 如果入参是多个 这里就不能直接指定参数类型 而改为#{param1} #{param2} 方式实现-->
+	<select id="findA3" resultMap="TeacherMap">
+		select * from t_teacher where teaName=#{param1} and teaAge=#{param2}
+	</select>
+
+	<!-- 逻辑分页 参数RowBounds可以不用定义数据类型-->
+	<select id="findA4" resultMap="TeacherMap" >
+		select * from t_teacher
+	</select>
+
+	<!-- 物理分页 真正的分页-->
+	<select id="findA5" resultMap="TeacherMap" >
+		select * from t_teacher 
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+</mapper> 

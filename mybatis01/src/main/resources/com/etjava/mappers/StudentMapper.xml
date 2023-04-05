@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射  namespace 对应的是接口的完整名称-->
+<mapper namespace="com.etjava.mappers.StudentMapper">
+
+	<!--定义返回的结果集-->
+	<!--直接使用对象级联方式定义result结果集-->
+	<!--<resultMap id="StudentMap" type="Student">
+		<id property="id" column="id"/>
+		<result property="stuName" column="stuName"/>
+		<result property="age" column="age"/>
+		&lt;!&ndash;address.id 对象级联方式&ndash;&gt;
+		<result property="address.id" column="addressId"/>
+		<result property="address.sheng" column="sheng"/>
+		<result property="address.shi" column="shi"/>
+		<result property="address.qu" column="qu"/>
+
+	</resultMap>-->
+	<!--引入其他的结果集-->
+	<!--<resultMap id="StudentMap" type="Student">
+		<id property="id" column="id"/>
+		<result property="stuName" column="stuName"/>
+		<result property="age" column="age"/>
+		&lt;!&ndash;引用其他的resultmap&ndash;&gt;
+		<association property="address" resultMap="AddressMap"/>
+	</resultMap>-->
+	<!--内嵌式-->
+	<!--<resultMap id="StudentMap" type="Student">
+		<id property="id" column="id"/>
+		<result property="stuName" column="stuName"/>
+		<result property="age" column="age"/>
+		&lt;!&ndash;直接内嵌一个对象进来&ndash;&gt;
+		<association property="address" javaType="Address">
+			<id property="id" column="id"/>
+			<result property="sheng" column="sheng"/>
+			<result property="shi" column="shi"/>
+			<result property="qu" column="qu"/>
+		</association>
+	</resultMap>-->
+
+	<resultMap id="StudentMap" type="Student">
+		<id property="id" column="id"/>
+		<result property="stuName" column="stuName"/>
+		<result property="age" column="age"/>
+		<!--级联查询
+		property 当前实体类中的属性
+		column 对应的是当前类中的外键属性 addressId
+		select 指定要执行的方法
+		-->
+		<association property="address" column="addressId" select="com.etjava.mappers.AddressMapper.findById"></association>
+		<!-- 查询学生信息时带年级信息 -->
+		<association property="grade" column="gradeId" select="com.etjava.mappers.GradeMapper.findById"></association>
+	</resultMap>
+
+	<!--定义地址实体类映射-->
+	<resultMap id="AddressMap" type="Address">
+		<id property="id" column="id"/>
+		<result property="sheng" column="sheng"/>
+		<result property="shi" column="shi"/>
+		<result property="qu" column="qu"/>
+	</resultMap>
+
+	<select id="findByIdWithGrade" resultMap="StudentMap" parameterType="Integer">
+		select * from t_student where id=#{id}
+	</select>
+	<!--根据ID查询学生信息 带地址-->
+	<select id="findStudentWithAddress" parameterType="Integer" resultMap="StudentMap">
+		SELECT * FROM t_student t1,t_address t2 WHERE t1.addressId=t2.id AND t1.id=#{id}
+	</select>
+
+	<!-- id 需要与接口中的方法名保持一直
+		parameterType 入参
+		Student 对应的是mybatis-config中的别名 如果那边没有配置别名 
+		这里需要写完整的类名  包名+类名
+	 -->
+	<insert id="add" parameterType="Student">
+		insert into t_student values (null,#{stuName},#{age})
+	</insert>
+	<!--修改学生信息SQL映射-->
+	<update id="update" parameterType="Student">
+		update t_student set stuName=#{stuName},age=#{age} where id=#{id}
+	</update>
+	<!--删除学生信息-->
+	<delete id="delete" parameterType="Integer">
+		delete from t_student where id=#{id}
+	</delete>
+
+	<!--根据ID查询学生信息-->
+	<select id="findById" parameterType="Integer" resultType="Student">
+		select * from t_student where id=#{id}
+	</select>
+
+	<!--根据姓名模糊匹配学生信息-->
+	<select id="findByName" parameterType="String" resultMap="StudentMap">
+		select * from t_student where stuName like concat('%',#{name},'%');
+	</select>
+
+	<!--带分页条件的查询-->
+	<select id="findAll" resultMap="StudentMap">
+		select * from t_student limit 0,2
+	</select>
+
+	<!--根据年级ID查询学生信息-->
+	<select id="findByGradeId" parameterType="Integer" resultMap="StudentMap">
+		select * from t_student where gradeId=#{gradeId}
+	</select>
+</mapper> 
