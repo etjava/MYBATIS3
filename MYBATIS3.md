@@ -31,7 +31,7 @@ MyBatis使用简单的XML或注解用于配置和原始映射，将javaBean和�
 (3)基础支撑层：负责最基础的功能支撑，包括连接管理、事务管理、配置加载和缓存处理，这些都是共用的东西，将他们抽取出来作为最基础的组件。为上层的数据处理层提供最基础的支撑
 ```
 
-![img](https://bkimg.cdn.bcebos.com/pic/0b46f21fbe096b63ea0d41bf0c338744eaf8accc?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5)
+![image](https://user-images.githubusercontent.com/47961027/230050399-d1534c4d-ca67-4130-b525-8217ec045843.png)
 
 ## MyBatis官网
 
@@ -43,15 +43,18 @@ https://github.com/mybatis/mybatis-3/releases
 
 ### 新建Java项目并添加对应的jar包
 
-![image-20230328201828010](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328201828010.png)
+![image-20230328201828010](https://user-images.githubusercontent.com/47961027/230050516-1a3772a8-06d2-4e72-9ece-ffcf882fc293.png)
+
 
 ### 项目目录介绍
 
-![image-20230328202510452](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328202510452.png)
+![image-20230328202510452](https://user-images.githubusercontent.com/47961027/230050609-0666d879-ab2b-40e8-b801-da04b1e41b5c.png)
+
 
 ### 创建数据库和表
 
-![image-20230328201912639](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328201912639.png)
+![image-20230328201912639](https://user-images.githubusercontent.com/47961027/230050695-aa985f6c-ce39-4cbf-85fb-4b5e79c91d3f.png)
+
 
 ### 添加mybatis配置文件
 
@@ -263,11 +266,12 @@ public class StudentTest {
 
 ### 创建Maven项
 
-![image-20230328202734003](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328202734003.png)
+![image-20230328202734003](https://user-images.githubusercontent.com/47961027/230051261-ac36635f-97f5-41af-9760-e9e41f93fcc3.png)
+
 
 ### 项目结构
+![image-20230328204746831](https://user-images.githubusercontent.com/47961027/230051324-73999bc9-1cdb-435d-a3f4-aa9a713be9b1.png)
 
-![image-20230328204746831](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328204746831.png)
 
 ### 添加mybatis支持
 
@@ -718,13 +722,8 @@ public class StudentTest {
 
 File → Settings → Editor → File and Code Templates → 加号
 
-![image-20230328233250374](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328233250374.png)
-
-![image-20230328233322513](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230328233322513.png)
-
-
-
-
+![image-20230328233250374](https://user-images.githubusercontent.com/47961027/230051534-b5dbb06a-6d7e-436c-8e9c-dccd8d919883.png)
+![image-20230328233322513](https://user-images.githubusercontent.com/47961027/230051618-7281baa8-6593-4c58-8ced-13c2e96f3d8d.png)
 
 MyBatis配置文件
 
@@ -1149,8 +1148,7 @@ StudentMapper.xml中定义带有分页的SQL语句
 ### 一对一查询
 
 新增地址表  每个学生对应不同的行政区 并学生表中添加关联外键
-
-![image-20230401191149962](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230401191149962.png)
+![image-20230401191149962](https://user-images.githubusercontent.com/47961027/230051890-3755a933-4f60-4a43-8ba9-b84f53fd7d56.png)
 
 #### 添加地址表实体类
 
@@ -1418,8 +1416,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 ##### 新建年级表
 
 一个年级中有多个学生
+![image-20230401210036199](https://user-images.githubusercontent.com/47961027/230052249-e7afc4c2-4c6d-4320-8b40-91a25176626b.png)
 
-![image-20230401210036199](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230401210036199.png)
 
 ##### 添加年级实体类
 
@@ -1695,7 +1693,7 @@ public class Student {
     }
 ```
 
-![image-20230401214549294](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230401214549294.png)
+![image-20230401214549294](https://user-images.githubusercontent.com/47961027/230052665-9367efab-7088-442c-ad40-53d13a433d1e.png)
 
 
 
@@ -1733,8 +1731,8 @@ public class Student {
         }
     }
 ```
+![image-20230401215927613](https://user-images.githubusercontent.com/47961027/230052755-8cb829d1-b08d-4f12-ac5f-6ee80e3243f9.png)
 
-![image-20230401215927613](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230401215927613.png)
 
 ## 多对多(真)
 
@@ -2202,8 +2200,8 @@ select * from t_teacher where id=#{id}
         sqlSession.commit();
     }
 ```
+![image-20230405004853395](https://user-images.githubusercontent.com/47961027/230052903-7775cef6-9135-4353-a582-0028948efb47.png)
 
-![image-20230405004853395](C:\Users\etjav\AppData\Roaming\Typora\typora-user-images\image-20230405004853395.png)
 
 ### 测试读取
 
@@ -3055,88 +3053,5 @@ mybatis-config.xml
 # Spring5.x
 
 ## 简介
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
